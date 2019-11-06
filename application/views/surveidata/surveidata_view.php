@@ -21,8 +21,8 @@
             <h4>Lampiran Survei :</h4>
           </div>
           <div class="box-header">
-            <button class="btn btn-flat btn-default" onclick="reload_table_Semua_Siswa()"><i class="glyphicon glyphicon-refresh"></i> Muat Ulang</button>
-            <button type="button" onclick="add_siswa()" class="btn btn-flat btn-primary pull-right"><i class="fa fa-plus"></i> Tambah Laporan Survei</button>
+            <button class="btn btn-flat btn-default" onclick="reload_table_SurveiData()"><i class="glyphicon glyphicon-refresh"></i> Muat Ulang</button>
+            <button type="button" onclick="add_surveiData()" class="btn btn-flat btn-primary pull-right"><i class="fa fa-plus"></i> Tambah Data Survei</button>
           </div>
 
           <div class="box-body">
@@ -56,68 +56,71 @@
     </div>
 
     <!-- Modal for Mapel -->
-    <div class="modal fade" id="modal_AddSiswa" role="dialog">
+    <div class="modal fade" id="modal_AddSurveiData" role="dialog">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h3 class="modal-title">Person Form</h3>
+            <h3 class="modal-title">Survei Data Form</h3>
           </div>
           <div class="modal-body form">
             <form action="#" id="form">
               <div class="row">
                 <div class="col-md-6">
+
                   <div class="form-group">
-                    <label class="control-label">NIS</label>
-                    <input name="nis" placeholder="NIS" class="form-control" type="text" autofocus>
+                    <label class="form-group" for="Jenis Kelamin">Jenis</label>
+                    <select name="id_jenis_kendaraan" class="form-control" id="jenis_kendaraan">
+                      <option disabled>-- Pilih Jenis Kendaraan --</option>
+                      <?php foreach($jenis as $j): ?>
+                        <option value="<?= $j->KODE_DATA ?>"><?= $j->KODE_VALUE ?></option>
+                      <?php endforeach ?>
+                    </select>
                     <span class="help-block"></span>
                   </div>
 
                   <div class="form-group">
-                    <label class="control-label">Nama Siswa</label>
-                    <input type="text" name="nama_siswa" placeholder="Nama Siswa" class="form-control">
+                    <label class="form-group">Merek</label>
+                    <select name="id_merek_kendaraan" class="form-control" id="merek_kendaraan">
+                      <option disabled>-- Pilih Merek --</option>
+                      <?php foreach($merek as $m): ?>
+                        <option value="<?= $m->KODE_VALUE ?>"><?= $m->KODE_VALUE ?></option>
+                      <?php endforeach ?>
+                    </select>
                     <span class="help-block"></span>
                   </div>
+
 
                   <div class="form-group">
-                    <label class="control-label">Tempat Lahir</label>
-                    <input type="text" name="tempat_lahir" placeholder="Tempat Lahir" class="form-control" >
-                    <span class="help-block"></span>
-                  </div>
-
-                  <div class="form-group date">
-                    <label class="control-label">Tanggal Lahir</label>
-                    <input type="text" name="tanggal_lahir" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask placeholder="yyyy-mm-dd">
+                    <label class="form-group">Type</label>
+                    <input id="type-autocomplete" name="nis" placeholder="Type Kendaraan" class="form-control" type="text" autofocus>
                     <span class="help-block"></span>
                   </div>
                 </div>
 
                 <div class="col-md-6">
+
                   <div class="form-group">
-                    <label class="control-label">Alamat</label>
-                    <textarea class="form-control" rows="3" name="alamat"></textarea>
+                    <label class="control-label">Kode NJKB</label>
+                    <input name="nis" placeholder="Kode NJKB" class="form-control" type="text" id="kode_njkb_kendaraan" autofocus>
                     <span class="help-block"></span>
                   </div>
 
                   <div class="form-group">
-                    <label class="form-group" for="Jenis Kelamin">Jenis Kelamin</label>
-                    <select name="id_jenis_kelamin" class="form-control">
-                      <option disabled>-- Pilih Jenis Kelamin --</option>
-                      <?php foreach($kelamins as $kl): ?>
-                        <option value="<?= $kl->id_jenis_kelamin ?>"><?= $kl->nama_jenis_kelamin ?></option>
-                      <?php endforeach ?>
-                    </select>
+                    <label class="control-label">Tahun Kendaraan</label>
+                    <input name="nis" placeholder="Tahun Kendaraan" class="form-control" type="text" id="tahun_kendaraan" autofocus>
                     <span class="help-block"></span>
                   </div>
 
                   <div class="form-group">
-                    <label class="form-group">Kelas</label>
-                    <select name="id_kelas" class="form-control">
-                      <option disabled>-- Pilih Kelas --</option>
-                      <?php foreach($kelass as $kelas): ?>
-                        <option value="<?= $kelas->id_kelas ?>"><?= $kelas->nama_kelas ?></option>
-                      <?php endforeach ?>
-                    </select>
+                    <label class="control-label">Harga Kendaraan (Rp)</label>
+                    <input name="nis" placeholder="Harga Kendaraan (dalam Rupiah)" class="form-control" type="text" id="harga_kendaraan" autofocus>
+                    <span class="help-block"></span>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label">Lampiran</label>
+                    <input name="nis" placeholder="Lampiran" class="form-control" type="text" autofocus>
                     <span class="help-block"></span>
                   </div>
                 </div>
@@ -138,6 +141,7 @@
 </div>
 
     <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
+    <script src="<?= base_url() ?>assets/plugins/jQueryUI/jquery-ui.min.js"></script>
     <!-- Bootstrap -->
     <script src="<?= base_url() ?>assets/js/bootstrap.min.js"></script>
     <!-- DataTables -->
@@ -153,6 +157,7 @@
     <script src="<?= base_url() ?>assets/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
     <script src="<?= base_url() ?>assets/plugins/input-mask/jquery.inputmask.extensions.js"></script>
     <script src="<?= base_url() ?>assets/plugins/pace/pace.min.js"></script>
+
 
 
 <script type="text/javascript">
@@ -187,5 +192,56 @@ $(document).ready(function() {
             });
           }); 
   });
-  
+</script>
+
+
+
+<script>
+function reload_table_SurveiData(){
+        tableSurveiData.ajax.reload(null,false); //reload datatable ajax 
+}
+
+function add_surveiData(){
+  save_method = 'add';
+        $('#form')[0].reset(); // reset form on modals
+        $('.form-group').removeClass('has-error'); // clear error class
+        $('.help-block').empty(); // clear error string
+        $('#modal_AddSurveiData').modal('show'); // show bootstrap modal
+        $('.modal-title').text('Tambah Data Survei'); // Set Title to Bootstrap modal title
+}
+
+</script>
+<script type="text/javascript">
+
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $( "#type-autocomplete" ).autocomplete({
+        source: function( request, response ) {
+          // Fetch data
+          $.ajax({
+            url: "<?=base_url()?>surveidata/njkb_list",
+            type: 'post',
+            dataType: "json",
+            data: {
+              "jenis":  $("#jenis_kendaraan").val(),
+              "merek": $("#merek_kendaraan").val(),
+              "key": $("#type-autocomplete").val()
+            },
+            success: function( datas ) {
+              response( datas );
+            }
+          });
+        },
+        select: function (event, ui) {
+          // Set selection
+          $('#type-autocomplete').val(ui.item.label); // display the selected text
+          $('#userid').val(ui.item.value); // save selected id to input
+          return false;
+        }
+      });
+});
+
 </script>

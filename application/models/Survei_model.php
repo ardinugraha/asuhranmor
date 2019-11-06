@@ -12,7 +12,7 @@ class Survei_model extends CI_Model {
 		
 	}
 
-	private function _get_datatables_query(){
+	private function _get_datatables_query($user_id){
 		
 		$this->db->select('a.survey_id as survey_id, a.survey_tgl as survey_tgl, c.kode_value as survey_pos, a.survey_attachment as survey_attachment, d.kode_value as survey_status');
 		$this->db->from('tbl_survey as a');
@@ -20,6 +20,7 @@ class Survei_model extends CI_Model {
 		$this->db->where('c.kode_title','city_pos');
 		$this->db->join('tbl_kode as d','d.kode_data = a.survey_status');
 		$this->db->where('d.kode_title','survey_cond_status');
+		$this->db->where('a.user_id',$user_id);
         //$this->db->simple_query("SELECT a.SURVEY_TGL as survey_tgl ,b.kode_value as survey_pos ,a.SURVEY_ATTACHMENT as survey_attachment ,c.kode_value as survey_status FROM tbl_survey a,tbl_kode b,tbl_kode c WHERE b.kode_title = 'city_pos' and a.survey_pos = b.kode_data and c.kode_title = 'survey_cond_status' and a.survey_status = c.kode_data");
         //$this->db->query('SELECT * from tbl_survey');
 
@@ -57,23 +58,24 @@ class Survei_model extends CI_Model {
 		}
 	}
 
-	function get_datatables(){
-		$this->_get_datatables_query();
+	function get_datatables($user_id){
+		$this->_get_datatables_query($user_id);
 		if($_POST['length'] != -1)
 			$this->db->limit($_POST['length'], $_POST['start']);
 		$query = $this->db->get();
 		return $query->result();
     }
 
-    public function count_all()
+    public function count_all($user_id)
 	{
 		$this->db->from($this->table);
+		$this->db->where('user_id',$user_id);
 		return $this->db->count_all_results();
     }
     
-    function count_filtered()
+    function count_filtered($user_id)
 	{
-		$this->_get_datatables_query();
+		$this->_get_datatables_query($user_id);
 		$query = $this->db->get();
 		return $query->num_rows();
 	}

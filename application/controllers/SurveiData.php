@@ -7,11 +7,9 @@ class SurveiData extends CI_Controller {
         $this->load->model('Survei_model', 'surveis');
         $this->load->model('Survei_data_model', 'surveidatas');
         $this->load->model('Pos_model', 'poss');
-        $this->load->model('Survei_stat_model', 'surveistats');
-		// $this->load->model('kelas_model', 'kelass');
-		// $this->load->model('mapel_model', 'mapels');
-		// $this->load->model('siswa_model', 'siswas');
-		// $this->load->model('user_model', 'users');
+		$this->load->model('Survei_stat_model', 'surveistats');
+		$this->load->model('Njkb_model', 'njkbs');
+		
 
 
 		if($this->session->userdata('status') != 'login'){
@@ -25,12 +23,36 @@ class SurveiData extends CI_Controller {
             'title' => 'Detail Laporan Survei',
             'content' => $this->load->view('surveidata/surveidata_view', [
                 'poss' => $this->poss->getAllPos(),
-                'surveistats' => $this->surveistats->getAllstat(),
+				'surveistats' => $this->surveistats->getAllstat(),
+				'jenis' => $this->njkbs->getJenis(),
+				'merek' => $this->njkbs->getMerek(),
                 'data_id' => $data_id
 				], TRUE)
 			);
         $this->load->view('template/index',$data);
-    }
+	}
+	
+
+	public function njkb_list(){
+		// POST data
+		$postData = $this->input->post();
+		$dataset = array(
+			'jenis' => $this->input->post('jenis'),
+			'merek' => $this->input->post('merek'),
+			'key' => $this->input->post('key')
+		);
+		$datas = $this->njkbs->getNjkb($dataset);
+
+		$response = array();
+
+		foreach ($datas as $data) {
+			$row = array();
+			$row[] = array("value"=>$data->NJKB_KODE_KENDARAAN,"label"=>$data->NJKB_TYPE);
+			$response = $row;
+		}
+
+		echo json_encode($response);
+	  }
 
     public function ajax_list($survei_id){
         $list = $this->surveidatas->get_datatables($survei_id);
@@ -42,7 +64,7 @@ class SurveiData extends CI_Controller {
 			$row = array();
 			$row[] = $no;
             $row[] = $surveidata->SURVEY_DATA_KODE_KENDARAAN;
-            $row[] = $surveidata->SURVEY_DATA_SUB_JENIS;
+            $row[] = $surveidata->SURVEY_DATA_JENIS;
             $row[] = $surveidata->SURVEY_DATA_MEREK;
             $row[] = $surveidata->SURVEY_DATA_TYPE;
             $row[] = $surveidata->SURVEY_DATA_TAHUN;
@@ -64,5 +86,8 @@ class SurveiData extends CI_Controller {
 
 		//output to json format
 		echo json_encode($output);
-    }
+	}
+	
+
+	
 }

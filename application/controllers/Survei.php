@@ -7,27 +7,14 @@ class Survei extends CI_Controller {
         $this->load->model('Survei_model', 'surveis');
         $this->load->model('Pos_model', 'poss');
         $this->load->model('Survei_stat_model', 'surveistats');
-		// $this->load->model('kelas_model', 'kelass');
-		// $this->load->model('mapel_model', 'mapels');
-		// $this->load->model('siswa_model', 'siswas');
-		// $this->load->model('user_model', 'users');
 
 
 		if($this->session->userdata('status') != 'login'){
 			redirect(base_url());
-			// echo "HARUS LOGIN DULU";
 		}
 	}
 
 	public function index(){
-		// $data = array(
-		// 	'title' => 'Data Semua Siswa | .this.nilaiSiswa',
-		// 	'content' => $this->load->view('siswa/siswa_view', [
-		// 		'kelamins' => $this->kelamins->getAllJenisKelamin(),
-		// 		'kelass' => $this->kelass->getAllKelas()
-		// 		], TRUE)
-        // 	);
-
         $data = array(
             'title' => 'Manajemen Laporan Survei',
             'content' => $this->load->view('survei/survei_view', [
@@ -40,7 +27,8 @@ class Survei extends CI_Controller {
     
     
 	public function ajax_list(){
-        $list = $this->surveis->get_datatables();
+		$user_id = $this->session->userdata('user_id');
+        $list = $this->surveis->get_datatables($user_id);
         
 		$data = array();
 		$no = $_POST['start'];
@@ -63,8 +51,8 @@ class Survei extends CI_Controller {
 
 		$output = array(
 			"draw" => $_POST['draw'],
-			"recordsTotal" => $this->surveis->count_all(),
-			"recordsFiltered" => $this->surveis->count_filtered(),
+			"recordsTotal" => $this->surveis->count_all($user_id),
+			"recordsFiltered" => $this->surveis->count_filtered($user_id),
 			"data" => $data,
 			);
 
@@ -80,7 +68,7 @@ class Survei extends CI_Controller {
 			'survey_tgl' => date('Y-m-d H:i:s'),
 			'survey_pos' => $this->input->post('kode_data'),
 			'survey_attachment' => null,
-			'survey_status' => 1
+			'survey_status' => 0
 			);
 		$insert = $this->surveis->save($data);
 		echo json_encode(array("status" => TRUE));

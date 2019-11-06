@@ -2,8 +2,8 @@
 
 class Survei_data_model extends CI_Model {
 	var $table = 'tbl_survey_data';
-	var $column_order = array('survey_data_id','survey_data_kode_kendaraan','survey_data_sub_jenis','survey_data_merek','survey_data_type','survey_data_tahun','survey_data_hpu','survey_data_pos','survey_data_attachment',null); //set column field database for datatable orderable
-	var $column_search = array('survey_data_id','survey_data_kode_kendaraan','survey_data_sub_jenis','survey_data_merek','survey_data_type','survey_data_tahun','survey_data_hpu','survey_data_pos','survey_data_attachment'); //set column field database for datatable searchable just firstname
+	var $column_order = array('survey_data_id','survey_data_kode_kendaraan','survey_data_jenis','survey_data_merek','survey_data_type','survey_data_tahun','survey_data_hpu','survey_data_pos','survey_data_attachment',null); //set column field database for datatable orderable
+	var $column_search = array('survey_data_id','survey_data_kode_kendaraan','survey_data_jenis','survey_data_merek','survey_data_type','survey_data_tahun','survey_data_hpu','survey_data_pos','survey_data_attachment'); //set column field database for datatable searchable just firstname
 	var $order = array('survey_data_id' => 'asc'); // default order 
 
 
@@ -76,5 +76,9 @@ class Survei_data_model extends CI_Model {
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
+
+
+
+	
 
 }

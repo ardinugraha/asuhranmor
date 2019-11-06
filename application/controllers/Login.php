@@ -24,14 +24,15 @@ class Login extends CI_Controller {
 			'user_pass' => md5($password)
 			);
 
-		$cek = $this->users->login("tbl_user",$where)->num_rows();
-
-		if ($cek > 0) {
+		$cek = $this->users->login("tbl_user",$where);
+		
+		if ($cek->num_rows() > 0) {
+			$data = $cek->row_array();
 			$data_session = array(
-				'username' => $USER_NAME,
+				'username' => $data['USER_NAME'],
 				'status' => 'login',
-				'user_id' => $USER_ID,
-				'user_role' => $USER_ROLE,
+				'user_id' => $data['USER_ID'],
+				'user_role' => $data['USER_ROLE']
 				);
 			$this->session->set_userdata($data_session);
 			redirect('dashboard');

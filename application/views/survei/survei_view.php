@@ -60,7 +60,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <label class="control-label">Lokasi Kegiatan Survei <?php echo $this->session->userdata('user_id') ?></label>
+                    <label class="control-label">Lokasi Kegiatan Survei </label>
                     <select name="kode_data" class="form-control">
                         <option>-- Pilih Lokasi --</option>
                         <?php foreach($poss as $pos): ?>
@@ -71,12 +71,10 @@
                   </div>
 
                   <div class="form-group">
-                    <label class="control-label">Lampiran</label>
-                    <input type="text" name="nama_siswa" placeholder="Nama Siswa" class="form-control">
+                    <label class="control-label">Lampiran Surat Tugas</label>
+                    <input type="text" name="nama_siswa" placeholder="Lampiran Surat Tugas" class="form-control">
                     <span class="help-block"></span>
                   </div>
-
-                  <input type="text" name="user_id" placeholder="Nama Siswa" class="form-control">
                 </div>
 
                 <div class="col-md-6">
@@ -170,7 +168,7 @@ function add_survei(){
 function save_survei(){
         $('#btnSave').text('saving...'); //change button text
         $('#btnSave').attr('disabled',true); //set button disable 
-        $('#form').append('<input type="hidden" name="user_id" value="" />');
+        $('#form').append('<input type="hidden" name="user_id" value="<?php echo $this->session->userdata('user_id') ?>" />');
         var url;
 
         if(save_method == 'add') {

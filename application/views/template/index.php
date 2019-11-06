@@ -131,6 +131,7 @@
     <script src="<?= base_url() ?>assets/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
     <script src="<?= base_url() ?>assets/plugins/input-mask/jquery.inputmask.extensions.js"></script>
     <script src="<?= base_url() ?>assets/plugins/pace/pace.min.js"></script>
+    <script src="<?= base_url() ?>assets/plugins/jQueryUI/jquery-ui.min.js"></script>
 
 
     
