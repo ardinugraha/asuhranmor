@@ -26,7 +26,9 @@ class SurveiData extends CI_Controller {
 				'surveistats' => $this->surveistats->getAllstat(),
 				'jenis' => $this->njkbs->getJenis(),
 				'merek' => $this->njkbs->getMerek(),
-                'data_id' => $data_id
+				'data_id' => $data_id,
+				'wilayah_survey' => $this->surveis->getPosName($data_id),
+				'tanggal_survey' => $this->surveis->getTanggal($data_id)
 				], TRUE)
 			);
         $this->load->view('template/index',$data);
@@ -71,8 +73,8 @@ class SurveiData extends CI_Controller {
             $row[] = $surveidata->SURVEY_DATA_HARGA;
             $row[] = $surveidata->SURVEY_DATA_POS;
             $row[] = $surveidata->SURVEY_DATA_ATTACHMENT;
-            $row[] = '<a class="btn btn-flat btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_siswa('."'".$surveidata->SURVEY_DATA_ID."'".')"><i class="glyphicon glyphicon-pencil"></i>  Edit</a>
-			<a class="btn btn-flat btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_siswa('."'".$surveidata->SURVEY_DATA_ID."'".')"><i class="glyphicon glyphicon-trash"></i>  Delete</a>';
+            $row[] = '<a class="btn btn-flat btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_surveidata('."'".$surveidata->SURVEY_DATA_ID."'".')"><i class="glyphicon glyphicon-pencil"></i>  Edit</a>
+			<a class="btn btn-flat btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_surveidata('."'".$surveidata->SURVEY_DATA_ID."'".')"><i class="glyphicon glyphicon-trash"></i>  Delete</a>';
 			
             $data[] = $row;
 		}
@@ -87,7 +89,29 @@ class SurveiData extends CI_Controller {
 		//output to json format
 		echo json_encode($output);
 	}
-	
 
-	
+
+	public function ajax_add(){
+		//$this->_validate();
+		$data = array(
+			'survey_id' => $this->input->post('survey_id'),
+			'survey_data_kode_kendaraan' => $this->input->post('survey_data_kode_kendaraan'),
+			'survey_data_tahun' => $this->input->post('survey_data_tahun'),
+			'survey_data_harga' => $this->input->post('survey_data_harga'),
+			'survey_data_merek' => $this->input->post('survey_data_merek'),
+			'survey_data_type' => $this->input->post('survey_data_type'),
+			'survey_data_jenis' => $this->input->post('survey_data_jenis'),
+			'survey_data_attachment' => null,
+			'survey_data_pos' => $this->surveis->getPosName($this->input->post('survey_id'))
+			);
+		$insert = $this->surveidatas->save($data);
+		echo json_encode(array("status" => TRUE));
+	}
+
+
+	public function ajax_delete($id){
+		$this->surveidatas->delete_by_id($id);
+		echo json_encode(array("status" => TRUE));
+	}
+
 }

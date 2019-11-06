@@ -164,6 +164,23 @@ function add_survei(){
         $('.modal-title').text('Tambah Laporan Survei'); // Set Title to Bootstrap modal title
 }
 
+function delete_survei(id){
+      if(confirm('Yakin ingin menghapus data ini ??')){
+          // ajax delete data to database
+          $.ajax({
+            url : "<?= site_url('survei/ajax_delete')?>/"+id,
+            type: "POST",
+            dataType: "JSON",
+            success: function(data){
+            //if success -> reload ajax table
+            $('#modal_form').modal('hide');
+            reload_table_Survei();
+          }, error: function (jqXHR, textStatus, errorThrown){
+            alert('Error deleting data');
+          }
+        });
+        }
+}
 
 function save_survei(){
         $('#btnSave').text('saving...'); //change button text
@@ -205,4 +222,33 @@ function save_survei(){
           }
         });
 }
+
+
+
+function edit_survei(id){
+        save_method = 'update';
+        $('#form')[0].reset(); // reset form on modals
+        $('.form-group').removeClass('has-error'); // clear error class
+        $('.help-block').empty(); // clear error string
+
+        //Ajax Load data from ajax
+        $.ajax({
+          url : "<?php echo site_url('siswa/ajax_edit')?>/" + nis,
+          type: "GET",
+          dataType: "JSON",
+          success: function(data){
+            $('[name="nis"]').val(data.nis);
+            $('[name="nama_siswa"]').val(data.nama_siswa);
+            $('[name="tempat_lahir"]').val(data.tempat_lahir);
+            $('[name="tanggal_lahir"]').val(data.tanggal_lahir);
+            $('[name="alamat"]').val(data.alamat);
+            $('[name="id_jenis_kelamin"]').val(data.id_jenis_kelamin);
+            $('[name="id_kelas"]').val(data.id_kelas);
+            $('#modal_AddSiswa').modal('show'); // show bootstrap modal when complete loaded
+            $('.modal-title').text('Edit Data Siswa'); // Set title to Bootstrap modal title
+          },error: function (jqXHR, textStatus, errorThrown){
+            alert('Error get data from ajax');
+          }
+        });
+      }
 </script>

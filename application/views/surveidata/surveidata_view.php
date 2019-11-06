@@ -16,8 +16,8 @@
         <div class="box box-danger">
           <!-- Content Title -->
           <div class="box-header">
-            <h4>Wilayah Survei :</h4>
-            <h4>Tanggal Survei :</h4>
+            <h4>Wilayah Survei : <?php echo $wilayah_survey ?></h4>
+            <h4>Tanggal Survei : <?php echo $tanggal_survey ?></h4>
             <h4>Lampiran Survei :</h4>
           </div>
           <div class="box-header">
@@ -70,7 +70,7 @@
 
                   <div class="form-group">
                     <label class="form-group" for="Jenis Kelamin">Jenis</label>
-                    <select name="id_jenis_kendaraan" class="form-control" id="jenis_kendaraan">
+                    <select name="survey_data_jenis" class="form-control" id="jenis_kendaraan">
                       <option disabled>-- Pilih Jenis Kendaraan --</option>
                       <?php foreach($jenis as $j): ?>
                         <option value="<?= $j->KODE_DATA ?>"><?= $j->KODE_VALUE ?></option>
@@ -81,7 +81,7 @@
 
                   <div class="form-group">
                     <label class="form-group">Merek</label>
-                    <select name="id_merek_kendaraan" class="form-control" id="merek_kendaraan">
+                    <select name="survey_data_merek" class="form-control" id="merek_kendaraan">
                       <option disabled>-- Pilih Merek --</option>
                       <?php foreach($merek as $m): ?>
                         <option value="<?= $m->KODE_VALUE ?>"><?= $m->KODE_VALUE ?></option>
@@ -92,8 +92,8 @@
 
 
                   <div class="form-group">
-                    <label class="form-group">Type</label>
-                    <input id="type-autocomplete" name="nis" placeholder="Type Kendaraan" class="form-control" type="text" autofocus>
+                    <label class="form-group">Tipe</label>
+                    <input id="type-autocomplete" name="survey_data_type" placeholder="Type Kendaraan" class="form-control" type="text" autofocus>
                     <span class="help-block"></span>
                   </div>
                 </div>
@@ -102,25 +102,25 @@
 
                   <div class="form-group">
                     <label class="control-label">Kode NJKB</label>
-                    <input name="nis" placeholder="Kode NJKB" class="form-control" type="text" id="kode_njkb_kendaraan" autofocus>
+                    <input name="survey_data_kode_kendaraan" placeholder="Kode NJKB" class="form-control" type="text" id="kode_njkb_kendaraan" autofocus>
                     <span class="help-block"></span>
                   </div>
 
                   <div class="form-group">
                     <label class="control-label">Tahun Kendaraan</label>
-                    <input name="nis" placeholder="Tahun Kendaraan" class="form-control" type="text" id="tahun_kendaraan" autofocus>
+                    <input name="survey_data_tahun" placeholder="Tahun Kendaraan" class="form-control" type="text" id="tahun_kendaraan" autofocus>
                     <span class="help-block"></span>
                   </div>
 
                   <div class="form-group">
                     <label class="control-label">Harga Kendaraan (Rp)</label>
-                    <input name="nis" placeholder="Harga Kendaraan (dalam Rupiah)" class="form-control" type="text" id="harga_kendaraan" autofocus>
+                    <input name="survey_data_harga" placeholder="Harga Kendaraan (dalam Rupiah)" class="form-control" type="text" id="harga_kendaraan" autofocus>
                     <span class="help-block"></span>
                   </div>
 
                   <div class="form-group">
                     <label class="control-label">Lampiran</label>
-                    <input name="nis" placeholder="Lampiran" class="form-control" type="text" autofocus>
+                    <input name="lampiran" placeholder="Lampiran" class="form-control" type="text" autofocus>
                     <span class="help-block"></span>
                   </div>
                 </div>
@@ -129,7 +129,7 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" id="btnSave" onclick="save()" class="btn btn-primary">Save</button>
+            <button type="button" id="btnSave" onclick="save_surveiData()" class="btn btn-primary">Save</button>
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
           </div>
         </div><!-- /.modal-content -->
@@ -210,6 +210,66 @@ function add_surveiData(){
         $('.modal-title').text('Tambah Data Survei'); // Set Title to Bootstrap modal title
 }
 
+
+function save_surveiData(){
+        $('#btnSave').text('saving...'); //change button text
+        $('#btnSave').attr('disabled',true); //set button disable 
+        $('#form').append('<input type="hidden" name="survey_id" value="<?php echo $data_id ?>" />');
+        var url;
+
+        if(save_method == 'add') {
+          url = "<?php echo site_url('surveiData/ajax_add')?>";
+        } else {
+          url = "<?php echo site_url('surveiData/ajax_update')?>";
+        }
+
+        // ajax adding data to database
+        $.ajax({
+          url : url,
+          type: "POST",
+          data: $('#form').serialize(),
+          dataType: "JSON",
+          success: function(data){
+            if(data.status){ //if success close modal and reload ajax table
+              $('#modal_AddSurveiData').modal('hide');
+              reload_table_SurveiData();
+            }
+            else{
+              for (var i = 0; i < data.inputerror.length; i++) 
+              {
+                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+                  }
+                }
+            $('#btnSave').text('save'); //change button text
+            $('#btnSave').attr('disabled',false); //set button enable 
+          },
+          error: function (jqXHR, textStatus, errorThrown){
+            alert('Error adding / update data');
+            $('#btnSave').text('save'); //change button text
+            $('#btnSave').attr('disabled',false); //set button enable
+          }
+        });
+}
+
+
+function delete_surveidata(id){
+      if(confirm('Yakin ingin menghapus data ini ??')){
+          // ajax delete data to database
+          $.ajax({
+            url : "<?= site_url('surveidata/ajax_delete')?>/"+id,
+            type: "POST",
+            dataType: "JSON",
+            success: function(data){
+            //if success -> reload ajax table
+            $('#modal_form').modal('hide');
+            reload_table_SurveiData();
+          }, error: function (jqXHR, textStatus, errorThrown){
+            alert('Error deleting data');
+          }
+        });
+        }
+}
 </script>
 <script type="text/javascript">
 

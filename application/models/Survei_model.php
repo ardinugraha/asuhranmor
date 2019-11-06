@@ -80,10 +80,41 @@ class Survei_model extends CI_Model {
 		return $query->num_rows();
 	}
 
-
 	public function save($data){
 		$this->db->insert($this->table, $data);
 		return $this->db->insert_id();
+	}
+
+
+	public function getPos($data){
+		$this->db->select('survey_pos');
+		$this->db->from($this->table);
+		$this->db->where('survey_id',$data);
+		return $this->db->get()->row()->survey_pos;
+	}
+
+	public function getPosName($data){
+		$this->db->select('c.kode_value as survey_pos');
+		$this->db->from('tbl_survey as a');
+		$this->db->join('tbl_kode as c','c.kode_data = a.survey_pos');
+		$this->db->where('c.kode_title','city_pos');
+		$this->db->where('a.survey_id',$data);
+		return $this->db->get()->row()->survey_pos;
+	}
+
+
+	public function getTanggal($data){
+		$this->db->select('survey_tgl');
+		$this->db->from($this->table);
+		$this->db->where('survey_id',$data);
+		return $this->db->get()->row()->survey_tgl;
+	}
+
+
+	public function delete_by_id($id)
+	{
+		$this->db->where('survey_id', $id);
+		$this->db->delete($this->table);
 	}
 
 }

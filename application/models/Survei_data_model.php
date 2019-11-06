@@ -77,8 +77,25 @@ class Survei_data_model extends CI_Model {
 		return $query->num_rows();
 	}
 
+	public function save($data){
+		$this->db->insert($this->table, $data);
+		return $this->db->insert_id();
+	}
 
 
-	
+	public function delete_by_id($id)
+	{
+		$this->db->where('survey_data_id', $id);
+		$this->db->delete($this->table);
+	}
+
+
+	public function get_by_survey_id($id)
+	{
+		$this->db->select('*');
+		$this->db->from($this->table);
+		$this->db->where('survey_id',$id);
+		return $this->db->get()->result();
+	}
 
 }
