@@ -1,3 +1,5 @@
+
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -116,6 +118,7 @@
                     <label class="control-label">Harga Kendaraan (Rp)</label>
                     <input name="survey_data_harga" placeholder="Harga Kendaraan (dalam Rupiah)" class="form-control" type="text" id="harga_kendaraan" autofocus>
                     <span class="help-block"></span>
+                    <label class="control-label">Harga Kendaraan (Rp)</label>
                   </div>
 
                   <div class="form-group">
@@ -139,8 +142,10 @@
 
   </section>
 </div>
-
+    
     <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
+    <script src="<?= base_url() ?>assets/js/jquery.mask.min.js"></script>
+    <script src="<?= base_url() ?>assets/js/jquery.mask.js"></script>
     <script src="<?= base_url() ?>assets/plugins/jQueryUI/jquery-ui.min.js"></script>
     <!-- Bootstrap -->
     <script src="<?= base_url() ?>assets/js/bootstrap.min.js"></script>
@@ -277,7 +282,14 @@ function delete_surveidata(id){
 
 
 <script type="text/javascript">
+
 $(document).ready(function() {
+  // $( "#type-autocomplete" ).autocomplete({
+  //     source: availableTags
+  //   });
+
+  $( '#harga_kendaraan' ).mask('0.000.000.000', {reverse: true});
+
   $( "#type-autocomplete" ).autocomplete({
         source: function( request, response ) {
           // Fetch data
@@ -298,10 +310,49 @@ $(document).ready(function() {
         select: function (event, ui) {
           // Set selection
           $('#type-autocomplete').val(ui.item.label); // display the selected text
-          $('#userid').val(ui.item.value); // save selected id to input
+          $('#kode_njkb_kendaraan').val(ui.item.value); // save selected id to input
           return false;
         }
       });
 });
 
 </script>
+
+<style type="text/css">
+.ui-menu .ui-menu-item a {
+  font-size: 12px;
+}
+.ui-autocomplete {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1510 !important;
+  float: left;
+  display: none;
+  min-width: 160px;
+  width: 160px;
+  padding: 4px 0;
+  margin: 2px 0 0 0;
+  list-style: none;
+  background-color: #ffffff;
+  border-color: #ccc;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-style: solid;
+  border-width: 1px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  *border-right-width: 2px;
+  *border-bottom-width: 2px;
+}
+.ui-menu-item a.ui-state-focus {
+  position: absolute;
+  background-color: #faa;
+}
+</style>

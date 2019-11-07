@@ -61,7 +61,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label class="control-label">Lokasi Kegiatan Survei </label>
-                    <select name="kode_data" class="form-control">
+                    <select name="survei_pos" class="form-control">
                         <option>-- Pilih Lokasi --</option>
                         <?php foreach($poss as $pos): ?>
                           <option value="<?= $pos->KODE_DATA ?>"><?= $pos->KODE_VALUE ?></option>
@@ -72,7 +72,14 @@
 
                   <div class="form-group">
                     <label class="control-label">Lampiran Surat Tugas</label>
-                    <input type="text" name="nama_siswa" placeholder="Lampiran Surat Tugas" class="form-control">
+                    <input type="text" name="survei_lampiran" placeholder="Lampiran Surat Tugas" class="form-control">
+                    <span class="help-block"></span>
+                  </div>
+
+                  <div class="form-group" hidden="true">
+                    <label class="control-label">id</label>
+                    <input type="hidden" name="user_id" value="<?php echo $this->session->userdata('user_id') ?>" />
+                    <input type="text" name="survei_id" placeholder="Lampiran Surat Tugas" class="form-control">
                     <span class="help-block"></span>
                   </div>
                 </div>
@@ -165,7 +172,7 @@ function add_survei(){
 }
 
 function delete_survei(id){
-      if(confirm('Yakin ingin menghapus data ini ??')){
+      if(confirm('Yakin ingin menghapus laporan ini ??')){
           // ajax delete data to database
           $.ajax({
             url : "<?= site_url('survei/ajax_delete')?>/"+id,
@@ -182,10 +189,28 @@ function delete_survei(id){
         }
 }
 
+function report_survei(id){
+      if(confirm('Yakin ingin mengajukan laporan ini ??')){
+          // ajax delete data to database
+          $.ajax({
+            url : "<?= site_url('survei/ajax_report')?>/"+id,
+            type: "POST",
+            dataType: "JSON",
+            success: function(data){
+            //if success -> reload ajax table
+            $('#modal_form').modal('hide');
+            reload_table_Survei();
+          }, error: function (jqXHR, textStatus, errorThrown){
+            alert('Error reporting data');
+          }
+        });
+        }
+}
+
 function save_survei(){
         $('#btnSave').text('saving...'); //change button text
         $('#btnSave').attr('disabled',true); //set button disable 
-        $('#form').append('<input type="hidden" name="user_id" value="<?php echo $this->session->userdata('user_id') ?>" />');
+        //$('#form').append('<input type="hidden" name="user_id" value="<?php echo $this->session->userdata('user_id') ?>" />');
         var url;
 
         if(save_method == 'add') {
@@ -233,22 +258,20 @@ function edit_survei(id){
 
         //Ajax Load data from ajax
         $.ajax({
-          url : "<?php echo site_url('siswa/ajax_edit')?>/" + nis,
+          url : "<?php echo site_url('survei/ajax_edit')?>/" + id,
           type: "GET",
           dataType: "JSON",
           success: function(data){
-            $('[name="nis"]').val(data.nis);
-            $('[name="nama_siswa"]').val(data.nama_siswa);
-            $('[name="tempat_lahir"]').val(data.tempat_lahir);
-            $('[name="tanggal_lahir"]').val(data.tanggal_lahir);
-            $('[name="alamat"]').val(data.alamat);
-            $('[name="id_jenis_kelamin"]').val(data.id_jenis_kelamin);
-            $('[name="id_kelas"]').val(data.id_kelas);
-            $('#modal_AddSiswa').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Edit Data Siswa'); // Set title to Bootstrap modal title
+            $('[name="survei_id"]').val(data.survey_id);
+            $('[name="survei_pos"]').val(data.survey_pos);
+            $('[name="survei_lampiran"]').val(data.survey_attachment);
+            $('#modal_AddSurvei').modal('show'); // show bootstrap modal when complete loaded
+            $('.modal-title').text('Edit Laporan Survei'); // Set title to Bootstrap modal title
           },error: function (jqXHR, textStatus, errorThrown){
             alert('Error get data from ajax');
           }
         });
       }
+
+      
 </script>

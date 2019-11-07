@@ -133,6 +133,10 @@
     <script src="<?= base_url() ?>assets/plugins/pace/pace.min.js"></script>
     <script src="<?= base_url() ?>assets/plugins/jQueryUI/jquery-ui.min.js"></script>
 
+    
+    <script src="<?= base_url() ?>assets/js/jquery.mask.min.js"></script>
+    <script src="<?= base_url() ?>assets/js/jquery.mask.js"></script>
+
 
     
     <?php if ($title == "Dashboard | .this.nilaiSiswa"): ?>

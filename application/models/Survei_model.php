@@ -3,7 +3,7 @@
 class Survei_model extends CI_Model {
 	var $table = 'tbl_survey';
 	var $column_order = array('survey_id','survey_tgl', 'survey_pos', 'survey_attachment',null, 'survey_status', null); //set column field database for datatable orderable
-	var $column_search = array('survey_id','survey_tgl', 'survey_pos', 'survey_attachment', 'survey_status'); //set column field database for datatable searchable just firstname
+	var $column_search = array('survey_id','survey_tgl', 'survey_pos', 'c.kode_value', 'survey_status', ); //set column field database for datatable searchable just firstname
 	var $order = array('survey_id' => 'asc'); // default order 
 
 
@@ -110,11 +110,41 @@ class Survei_model extends CI_Model {
 		return $this->db->get()->row()->survey_tgl;
 	}
 
+	public function getStatus($data){
+		$this->db->select('survey_status');
+		$this->db->from($this->table);
+		$this->db->where('survey_id',$data);
+		return $this->db->get()->row()->survey_status;
+	}
+
 
 	public function delete_by_id($id)
 	{
 		$this->db->where('survey_id', $id);
 		$this->db->delete($this->table);
+	}
+
+	public function get_by_survey_id($id)
+	{
+		$this->db->select('a.survey_id as survey_id, a.survey_tgl as survey_tgl, a.survey_pos as survey_pos');
+		$this->db->from('tbl_survey as a');
+		$this->db->join('tbl_kode as c','c.kode_data = a.survey_pos');
+		$this->db->where('c.kode_title','city_pos');
+		$this->db->where('a.survey_id',$id);
+		$query = $this->db->get();
+
+		return $query->row();
+	}
+
+	public function update($where, $data){
+		$this->db->update($this->table, $data, $where);
+		return $this->db->affected_rows();
+	}
+
+	public function report($data){
+		$this->db->where('survey_id',$data);
+		$this->db->update('survey_status',1);
+		return $this->db->affected_rows();
 	}
 
 }
