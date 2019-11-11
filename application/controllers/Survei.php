@@ -43,11 +43,14 @@ class Survei extends CI_Controller {
             $row[] = '<a class="btn btn-flat btn-sm btn-primary" href='."'surveidata/index/".$survei->survey_id."'".' title="Edit" ><i class="glyphicon glyphicon-pencil"></i>  Detail</a>';
 
             $row[] = $survei->survey_status;//$this->surveistats->getStatName($survei->SURVEY_STATUS);
-
-			$row[] = '<a class="btn btn-flat btn-sm btn-success" href="javascript:void(0)" title="Edit" onclick="report_survei('."'".$survei->survey_id."'".')">  Ajukan</a>
-			<a class="btn btn-flat btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_survei('."'".$survei->survey_id."'".')"><i class="glyphicon glyphicon-pencil"></i>  Edit</a>
-			<a class="btn btn-flat btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_survei('."'".$survei->survey_id."'".')"><i class="glyphicon glyphicon-trash"></i>  Delete</a>';
-
+			if($survei->survey_status != "Reported"){
+				$row[] = '<a class="btn btn-flat btn-sm btn-success" href="javascript:void(0)" title="Edit" onclick="report_survei('."'".$survei->survey_id."'".')">  Ajukan</a>
+				<a class="btn btn-flat btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_survei('."'".$survei->survey_id."'".')"><i class="glyphicon glyphicon-pencil"></i>  Edit</a>
+				<a class="btn btn-flat btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_survei('."'".$survei->survey_id."'".')"><i class="glyphicon glyphicon-trash"></i>  Delete</a>';
+			}else{
+				$row[] = '<a class="btn btn-warning" disabled > Laporan sudah dilaporkan</a>';
+			}
+			
             $data[] = $row;
 		}
 

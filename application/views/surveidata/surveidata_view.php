@@ -24,7 +24,9 @@
           </div>
           <div class="box-header">
             <button class="btn btn-flat btn-default" onclick="reload_table_SurveiData()"><i class="glyphicon glyphicon-refresh"></i> Muat Ulang</button>
+            <?php if($status_survey != "1") : ?>
             <button type="button" onclick="add_surveiData()" class="btn btn-flat btn-primary pull-right"><i class="fa fa-plus"></i> Tambah Data Survei</button>
+            <?php endif; ?>
           </div>
 
           <div class="box-body">

@@ -142,8 +142,10 @@ class Survei_model extends CI_Model {
 	}
 
 	public function report($data){
+
+
 		$this->db->where('survey_id',$data);
-		$this->db->update('survey_status',1);
+		$this->db->update('tbl_survey',array('survey_status'=>1));
 		return $this->db->affected_rows();
 	}
 

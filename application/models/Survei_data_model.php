@@ -16,7 +16,10 @@ class Survei_data_model extends CI_Model {
 		
 		$this->db->select('*');
         $this->db->from('tbl_survey_data');
-        $this->db->where('survey_id',$survei_id);
+		$this->db->join('tbl_survey','tbl_survey_data.survey_id = tbl_survey.survey_id');
+		$this->db->join('tbl_kode','tbl_kode.kode_data = tbl_survey.survey_pos');
+		$this->db->where('tbl_kode.kode_title','city_pos');
+		$this->db->where('tbl_survey.survey_id',$survei_id);
         
         //$this->db->simple_query("SELECT a.SURVEY_TGL as survey_tgl ,b.kode_value as survey_pos ,a.SURVEY_ATTACHMENT as survey_attachment ,c.kode_value as survey_status FROM tbl_survey a,tbl_kode b,tbl_kode c WHERE b.kode_title = 'city_pos' and a.survey_pos = b.kode_data and c.kode_title = 'survey_cond_status' and a.survey_status = c.kode_data");
         //$this->db->query('SELECT * from tbl_survey');

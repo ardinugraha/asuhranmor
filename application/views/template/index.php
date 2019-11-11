@@ -91,7 +91,7 @@
             <!-- Dashboard -->
             <li class="<?php if ($this->uri->segment(1) == 'dashboard'): echo "active"; endif;?>"><a href="<?= base_url()?>dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
             <!-- Data User -->
-            <li class="<?php if ($this->uri->segment(1) == 'user'): echo "active"; endif;?>"><a href="<?= base_url()?>survei"><i class="fa fa-users"></i> <span>Manajemen Laporan Survei</span></a></li>
+            <li class="<?php if ($this->uri->segment(1) == 'survei'): echo "active"; endif;?>"><a href="<?= base_url()?>survei"><i class="fa fa-users"></i> <span>Manajemen Laporan Survei</span></a></li>
             <!-- Data Guru -->
             <li class="<?php if ($this->uri->segment(1) == 'guru'): echo "active"; endif;?>" ><a href="<?= base_url()?>profil"><i class="fa fa-users"></i> <span>Profil Pengguna</span></a></li>
             

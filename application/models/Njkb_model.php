@@ -11,8 +11,15 @@ class Njkb_model extends CI_model {
         $this->db->select('*');
         $this->db->from('tbl_kode');
         $this->db->where(array('kode_title'=>'veh_type'));
-        
         return $this->db->get()->result();
+    }
+
+
+    function getJenisById($data){
+      $this->db->select('kode_value');
+      $this->db->from('tbl_kode');
+      $this->db->where(array('kode_title'=>'veh_type','kode_data'=>$data));
+      return $this->db->get()->row()->kode_value;
     }
 
     function getMerek(){
@@ -23,6 +30,16 @@ class Njkb_model extends CI_model {
         return $this->db->get()->result();
     }
 
+    function getMerekById($data){
+      $this->db->select('kode_value');
+      $this->db->from('tbl_kode');
+      $this->db->where(array('kode_title'=>'veh_brand','kode_data'=>$data));
+      
+      return $this->db->get()->row()->kode_value;
+    }
+
+    
+
 
 
 
@@ -30,8 +47,6 @@ class Njkb_model extends CI_model {
           $this->db->select('*');
           $this->db->from('tbl_njkb');
           $this->db->like(array('njkb_jenis' => $datasend['jenis'], 'njkb_merek' => $datasend['merek'], 'njkb_type' => $datasend['key']));
-        //   $this->db->like('njkb_merek', $datasend['merek']);
-        //   $this->db->like('njkb_type', $datasend['key']);
         return $this->db->get()->result();
      }
     
