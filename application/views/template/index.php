@@ -7,6 +7,8 @@
 
   <link rel="stylesheet" href="<?= base_url();?>assets/plugins/perfect-scrollbar/css/perfect-scrollbar.min.css"/>
 
+  <link rel="stylesheet" href="<?= base_url();?>assets/plugins/perfect-scrollbar/css/perfect-scrollbar.min.css"/>
+
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="<?= base_url() ?>assets/css/bootstrap.min.css">
   <!-- Font Awesome -->
@@ -133,6 +135,11 @@
     <script src="<?= base_url() ?>assets/plugins/pace/pace.min.js"></script>
     <script src="<?= base_url() ?>assets/plugins/jQueryUI/jquery-ui.min.js"></script>
 
+
+    <script src="<?= base_url() ?>assets/plugins/daterangepicker/moment.min.js"></script>
+    <script src="<?= base_url() ?>assets/plugins/daterangepicker/moment.js"></script>
+    <script src="<?= base_url() ?>assets/plugins/daterangepicker/daterangepicker.js"></script>
+
     
     <script src="<?= base_url() ?>assets/js/jquery.mask.min.js"></script>
     <script src="<?= base_url() ?>assets/js/jquery.mask.js"></script>
@@ -146,6 +153,8 @@
       <script src="<?= base_url() ?>assets/plugins/chartjs/Chart.min.js"></script>
       <script src="<?= base_url() ?>assets/plugins/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>
     <?php endif ?>
+
+    
 
     <script type="text/javascript">
       let save_method;

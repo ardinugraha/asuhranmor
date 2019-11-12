@@ -76,6 +76,13 @@
                     <span class="help-block"></span>
                   </div>
 
+            
+                  <div class="form-group">
+                    <label class="control-label">Tanggal pelaksanaan Survei</label>
+                    <input type="text" name="survei_tanggal" id="survei_tanggal" value="01/01/2019" class="form-control "/>
+                    <span class="help-block"></span>
+                  </div>
+
                   <div class="form-group" hidden="true">
                     <label class="control-label">id</label>
                     <input type="hidden" name="user_id" value="<?php echo $this->session->userdata('user_id') ?>" />
@@ -152,7 +159,23 @@ $(document).ready(function() {
             $(this).next().empty();
           });
         });
+        
   });
+</script>
+
+
+<script>
+$(function() {
+  $('#survei_tanggal').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: true,
+    minYear: 1901,
+    maxYear: parseInt(moment().format('YYYY'),10)
+  }, function(start, end, label) {
+    var years = moment().diff(start, 'years');
+    alert("You are " + years + " years old!");
+  });
+});
 </script>
 
 
@@ -265,6 +288,7 @@ function edit_survei(id){
             $('[name="survei_id"]').val(data.survey_id);
             $('[name="survei_pos"]').val(data.survey_pos);
             $('[name="survei_lampiran"]').val(data.survey_attachment);
+            $('[name="survei_tanggal"]').val( getFormattedDate(data.survey_tgl));
             $('#modal_AddSurvei').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Edit Laporan Survei'); // Set title to Bootstrap modal title
           },error: function (jqXHR, textStatus, errorThrown){
@@ -273,5 +297,13 @@ function edit_survei(id){
         });
       }
 
+
+function getFormattedDate(date) {
+    let year = date.getFullYear();
+    let month = (1 + date.getMonth()).toString().padStart(2, '0');
+    let day = date.getDate().toString().padStart(2, '0');
+  
+    return month + '/' + day + '/' + year;
+}
       
 </script>

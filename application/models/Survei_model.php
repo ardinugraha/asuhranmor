@@ -149,4 +149,10 @@ class Survei_model extends CI_Model {
 		return $this->db->affected_rows();
 	}
 
+	public function update_last_edit($id,$data){
+		$this->db->where('survey_id',$id);
+		$this->db->update('tbl_survey',array('survey_last_date'=>$data));
+		return $this->db->affected_rows();
+	}
+
 }

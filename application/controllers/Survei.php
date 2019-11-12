@@ -70,7 +70,7 @@ class Survei extends CI_Controller {
 		//$this->_validate();
 		$data = array(
 			'user_id' => $this->input->post('user_id'),
-			'survey_tgl' => date('Y-m-d H:i:s'),
+			'survey_tgl' => date('Y-m-d'),
 			'survey_pos' => $this->input->post('survei_pos'),
 			'survey_attachment' => null,
 			'survey_status' => 0
@@ -118,6 +118,14 @@ class Survei extends CI_Controller {
 		$data = $this->surveis->get_by_survey_id($id);
 		echo json_encode($data);
 	}
+
+	public function ajax_update_date($id){
+		$this->surveis->update_last_edit($id,date('Y-m-d H:i:s'));
+		echo json_encode(array("status" => TRUE));
+	}
+
+
+	
     
     
 
