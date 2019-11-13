@@ -97,7 +97,7 @@
 
                   <div class="form-group">
                     <label class="form-group">Tipe</label>
-                    <input id="type-autocomplete" name="survey_data_type" placeholder="Type Kendaraan" class="form-control" type="text" autofocus>
+                    <input id="type-autocomplete" name="survey_data_type"  class="form-control" type="text" autofocus>
                     <span class="help-block"></span>
                   </div>
                 </div>
@@ -125,9 +125,15 @@
 
                   <div class="form-group">
                     <label class="control-label">Lampiran</label>
-                    <input name="lampiran" placeholder="Lampiran" class="form-control" type="text" autofocus>
+                    <input name="survey_data_lampiran" placeholder="Lampiran" class="form-control" type="text" autofocus>
                     <span class="help-block"></span>
                   </div>
+
+                  <div class="form-group" hidden="true">
+                    <input type="hidden" name="survey_data_id">
+                    <span class="help-block"></span>
+                  </div>
+
                 </div>
               </div>
 
@@ -221,7 +227,6 @@ function add_surveiData(){
 function save_surveiData(){
         $('#btnSave').text('saving...'); //change button text
         $('#btnSave').attr('disabled',true); //set button disable 
-        $('#form').append('<input type="hidden" name="survey_id" value="<?php echo $data_id ?>" />');
         var url;
 
         if(save_method == 'add') {
@@ -277,9 +282,35 @@ function delete_surveidata(id){
         });
         }
 }
-</script>
-<script type="text/javascript">
 
+
+function edit_surveidata(id){
+        save_method = 'update';
+        $('#form')[0].reset(); // reset form on modals
+        $('.form-group').removeClass('has-error'); // clear error class
+        $('.help-block').empty(); // clear error string
+
+        //Ajax Load data from ajax
+        $.ajax({
+          url : "<?php echo site_url('surveidata/ajax_edit')?>/" + id,
+          type: "GET",
+          dataType: "JSON",
+          success: function(data){
+            $('[name="survey_data_id"]').val(data.SURVEY_DATA_ID);
+            $('[name="survey_data_jenis"]').val(data.KODE_DATA);
+            $('[name="survey_data_merek"]').val(data.SURVEY_DATA_MEREK);
+            $('[name="survey_data_type"]').val(data.SURVEY_DATA_TYPE);
+            $('#kode_njkb_kendaraan').val(data.SURVEY_DATA_KODE_KENDARAAN);
+            $('[name="survey_data_harga"]').val(data.SURVEY_DATA_HARGA.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'));
+            $('[name="survey_data_tahun"]').val(data.SURVEY_DATA_TAHUN);
+            $('[name="survey_data_lampiran"]').val(data.SURVEY_DATA_LAMPIRAN);
+            $('#modal_AddSurveiData').modal('show'); // show bootstrap modal when complete loaded
+            $('.modal-title').text('Edit Data Survei'); // Set title to Bootstrap modal title
+          },error: function (jqXHR, textStatus, errorThrown){
+            alert('Error get data from ajax');
+          }
+        });
+      }
 </script>
 
 
@@ -317,6 +348,10 @@ $(document).ready(function() {
         }
       });
 });
+
+
+
+
 
 </script>
 

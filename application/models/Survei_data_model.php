@@ -101,4 +101,23 @@ class Survei_data_model extends CI_Model {
 		return $this->db->get()->result();
 	}
 
+
+	public function get_by_survey_data_id($id)
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_survey_data');
+		$this->db->join('tbl_kode','tbl_kode.kode_value = tbl_survey_data.survey_data_jenis');
+		$this->db->where('survey_data_id',$id);
+		$this->db->where('kode_title','veh_type');
+		$query = $this->db->get();
+
+		return $query->row();
+	}
+
+
+	public function update($where, $data){
+		$this->db->update($this->table, $data, $where);
+		return $this->db->affected_rows();
+	}
+
 }

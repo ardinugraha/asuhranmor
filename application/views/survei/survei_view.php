@@ -79,7 +79,7 @@
             
                   <div class="form-group">
                     <label class="control-label">Tanggal pelaksanaan Survei</label>
-                    <input type="text" name="survei_tanggal" id="survei_tanggal" value="01/01/2019" class="form-control "/>
+                    <input type="text" name="survei_tanggal" id="survei_tanggal" value="2019/12/01" class="form-control "/>
                     <span class="help-block"></span>
                   </div>
 
@@ -166,11 +166,7 @@ $(document).ready(function() {
 
 <script>
 $(function() {
-  $('#survei_tanggal').daterangepicker({
-    singleDatePicker: true,
-    showDropdowns: true,
-    minYear: 1901,
-    maxYear: parseInt(moment().format('YYYY'),10)
+  $('#survei_tanggal').datepicker({
   }, function(start, end, label) {
     var years = moment().diff(start, 'years');
     alert("You are " + years + " years old!");
@@ -288,7 +284,7 @@ function edit_survei(id){
             $('[name="survei_id"]').val(data.survey_id);
             $('[name="survei_pos"]').val(data.survey_pos);
             $('[name="survei_lampiran"]').val(data.survey_attachment);
-            $('[name="survei_tanggal"]').val( getFormattedDate(data.survey_tgl));
+            $('[name="survei_tanggal"]').val(data.survey_tgl);
             $('#modal_AddSurvei').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Edit Laporan Survei'); // Set title to Bootstrap modal title
           },error: function (jqXHR, textStatus, errorThrown){
@@ -299,11 +295,19 @@ function edit_survei(id){
 
 
 function getFormattedDate(date) {
+
+    var d = "2010-10-30T00:00:00+05:30".slice(0, 10).split('-');  
     let year = date.getFullYear();
     let month = (1 + date.getMonth()).toString().padStart(2, '0');
     let day = date.getDate().toString().padStart(2, '0');
   
     return month + '/' + day + '/' + year;
 }
-      
+
+
+function convertDate(dateString){
+var p = dateString.split(/\D/g)
+return [p[2],p[1],p[0] ].join("-")
+}
+
 </script>

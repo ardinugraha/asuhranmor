@@ -78,14 +78,14 @@ class SurveiData extends CI_Controller {
             $row[] = $surveidata->SURVEY_DATA_MEREK;
             $row[] = $surveidata->SURVEY_DATA_TYPE;
             $row[] = $surveidata->SURVEY_DATA_TAHUN;
-            $row[] = "Rp " . number_format($surveidata->SURVEY_DATA_HARGA,2,',','.');
+            $row[] = "Rp " . number_format($surveidata->SURVEY_DATA_HARGA,0,',','.');
             $row[] = $surveidata->KODE_VALUE;
 			$row[] = $surveidata->SURVEY_DATA_ATTACHMENT;
 			if($this->surveis->getStatus($survei_id)!=1){
 				$row[] = '<a class="btn btn-flat btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_surveidata('."'".$surveidata->SURVEY_DATA_ID."'".')"  ><i class="glyphicon glyphicon-pencil"></i>  Edit</a>
 				<a class="btn btn-flat btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_surveidata('."'".$surveidata->SURVEY_DATA_ID."'".')"><i class="glyphicon glyphicon-trash"></i>  Delete</a>';	
 			}else{
-				$row[] = '<a class="btn btn-warning" disabled > Sudah Dilaporkan</a>';
+				$row[] = '<a class="btn btn-warning" disabled >Data sudah dilaporkan</a>';
 			}
             
             $data[] = $row;
@@ -125,6 +125,26 @@ class SurveiData extends CI_Controller {
 		echo json_encode(array("status" => TRUE));
 	}
 
+	public function ajax_edit($id){
+		$data = $this->surveidatas->get_by_survey_data_id($id);
+		// $data->SURVEY_DATA_JENIS = $this->njkbs->getIdByJenisName($data->SURVEY_DATA_JENIS);
+		echo json_encode($data);
+	}
+
+	public function ajax_update(){
+		//$this->_validate();
+		$data = array(
+			'survey_data_kode_kendaraan' => $this->input->post('survey_data_kode_kendaraan'),
+			'survey_data_tahun' => $this->input->post('survey_data_tahun'),
+			'survey_data_harga' => preg_replace("/[^0-9]/", '', $this->input->post('survey_data_harga')),
+			'survey_data_merek' => $this->input->post('survey_data_merek'),
+			'survey_data_type' => $this->input->post('survey_data_type'),
+			'survey_data_jenis' => $this->njkbs->getJenisById($this->input->post('survey_data_jenis')),
+			'survey_data_attachment' => null
+			);
+		$insert = $this->surveidatas->update(array('survey_data_id' => $this->input->post('survey_data_id')), $data);
+		echo json_encode(array("status" => TRUE));
+	}
 
 	
 

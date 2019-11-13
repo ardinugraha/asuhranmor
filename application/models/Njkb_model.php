@@ -22,6 +22,13 @@ class Njkb_model extends CI_model {
       return $this->db->get()->row()->kode_value;
     }
 
+    function getIdByJenisName($data){
+      $this->db->select('kode_data');
+      $this->db->from('tbl_kode');
+      $this->db->where(array('kode_title'=>'veh_type','kode_value'=>$data));
+      return $this->db->get()->row()->kode_data;
+    }
+
     function getMerek(){
         $this->db->select('*');
         $this->db->from('tbl_kode');

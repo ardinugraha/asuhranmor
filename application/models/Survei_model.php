@@ -126,7 +126,7 @@ class Survei_model extends CI_Model {
 
 	public function get_by_survey_id($id)
 	{
-		$this->db->select('a.survey_id as survey_id, a.survey_tgl as survey_tgl, a.survey_pos as survey_pos');
+		$this->db->select('a.survey_id as survey_id, a.survey_tgl as survey_tgl, a.survey_pos as survey_pos, a.survey_attachment as survey_attachment');
 		$this->db->from('tbl_survey as a');
 		$this->db->join('tbl_kode as c','c.kode_data = a.survey_pos');
 		$this->db->where('c.kode_title','city_pos');

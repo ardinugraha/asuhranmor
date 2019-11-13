@@ -17,6 +17,8 @@
   <link rel="stylesheet" href="<?= base_url() ?>assets/css/ionicons.min.css">
   <!-- jvectormap -->
   <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+  <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/jQueryUI/jquery-ui.css">
+  <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/jQueryUI/jquery-ui.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?= base_url() ?>assets/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -47,35 +49,15 @@
 
       <!-- Header Navbar: style can be found in header.less -->
       <nav class="navbar navbar-static-top">
-        <!-- Sidebar toggle button-->
-        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-          <span class="sr-only">Toggle navigation</span>
-        </a>
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
             <!-- User Account: style can be found in dropdown.less -->
-            <li class="dropdown user user-menu">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <span class="hidden-xs">Alexander Pierce</span>
+            <li>
+              <a href="<?= base_url('login/logout')?>">
+                <span class="hidden-xs">Log Out</span>
               </a>
-              <ul class="dropdown-menu">
-                <!-- User image -->
-                <li class="user-header">
-                  <p>
-                    Alexander Pierce
-                  </p>
-                </li>
-                <!-- Menu Footer-->
-                <li class="user-footer">
-                  <div class="pull-left">
-                    <a href="#" class="btn btn-default btn-flat">Profile</a>
-                  </div>
-                  <div class="pull-right">
-                    <a href="<?= base_url('login/logout')?>" class="btn btn-default btn-flat">Sign out</a>
-                  </div>
-                </li>
-              </ul>
+            </li>
             </ul>
           </div>
         </nav>
@@ -87,6 +69,14 @@
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
           <!-- Sidebar user panel -->
+          <div class="user-panel">
+            <div class="pull-left image">
+              <img src="<?php echo base_url()?>assets/dist/img/Avatar2.jpg" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+              <p><?php echo $this->session->userdata('username')?></p>
+            </div>
+          </div>
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
@@ -133,6 +123,7 @@
     <script src="<?= base_url() ?>assets/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
     <script src="<?= base_url() ?>assets/plugins/input-mask/jquery.inputmask.extensions.js"></script>
     <script src="<?= base_url() ?>assets/plugins/pace/pace.min.js"></script>
+
     <script src="<?= base_url() ?>assets/plugins/jQueryUI/jquery-ui.min.js"></script>
 
 
