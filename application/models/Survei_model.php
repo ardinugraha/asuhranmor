@@ -58,13 +58,88 @@ class Survei_model extends CI_Model {
 		}
 	}
 
+
+	private function _get_datatables_query_reported(){
+		
+		$this->db->select('a.survey_id as survey_id,a.survey_last_edit, a.survey_tgl as survey_tgl, c.kode_value as survey_pos, a.survey_attachment as survey_attachment, d.kode_value as survey_status, e.user_irl_name as user_name, e.user_nip as user_nip, f.kode_value as user_role, a.survey_last_edit as survey_tgl_reported');
+		$this->db->from('tbl_survey as a');
+		$this->db->join('tbl_kode as c','c.kode_data = a.survey_pos');
+		$this->db->where('c.kode_title','city_pos');
+		$this->db->join('tbl_kode as d','d.kode_data = a.survey_status');
+		$this->db->where('d.kode_title','survey_cond_status');
+		$this->db->join('tbl_user as e','e.user_id = a.user_id');
+		$this->db->join('tbl_kode as f','e.user_role = f.kode_data');
+		$this->db->where('f.kode_title','user_role');
+		$this->db->where('a.survey_status','1');
+        //$this->db->simple_query("SELECT a.SURVEY_TGL as survey_tgl ,b.kode_value as survey_pos ,a.SURVEY_ATTACHMENT as survey_attachment ,c.kode_value as survey_status FROM tbl_survey a,tbl_kode b,tbl_kode c WHERE b.kode_title = 'city_pos' and a.survey_pos = b.kode_data and c.kode_title = 'survey_cond_status' and a.survey_status = c.kode_data");
+        //$this->db->query('SELECT * from tbl_survey');
+
+		$i = 0;
+
+		foreach ($this->column_search as $item) // loop column 
+		{
+			if($_POST['search']['value']) // if datatable send POST for search
+			{
+				
+				if($i===0) // first loop
+				{
+					$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+					$this->db->like($item, $_POST['search']['value']);
+				}
+				else
+				{
+					$this->db->or_like($item, $_POST['search']['value']);
+				}
+
+				if(count($this->column_search) - 1 == $i) //last loop
+					$this->db->group_end(); //close bracket
+				}
+				$i++;
+			}
+
+		if(isset($_POST['order'])) // here order processing
+		{
+			$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+		} 
+		else if(isset($this->order))
+		{
+			$order = $this->order;
+			$this->db->order_by(key($order), $order[key($order)]);
+		}
+	}
+
 	function get_datatables($user_id){
 		$this->_get_datatables_query($user_id);
 		if($_POST['length'] != -1)
 			$this->db->limit($_POST['length'], $_POST['start']);
 		$query = $this->db->get();
 		return $query->result();
+	}
+	
+	function get_datatables_reported(){
+		$this->_get_datatables_query_reported();
+		if($_POST['length'] != -1)
+			$this->db->limit($_POST['length'], $_POST['start']);
+		$query = $this->db->get();
+		return $query->result();
+	}
+	
+
+	public function count_all_reported_2()
+	{
+		$this->db->from($this->table);
+		$this->db->where('survey_status',1);
+		return $this->db->count_all_results();
     }
+    
+    function count_filtered_reported_2()
+	{
+		$this->_get_datatables_query_reported();
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+
+
 
     public function count_all($user_id)
 	{
@@ -91,6 +166,20 @@ class Survei_model extends CI_Model {
 		$this->db->from($this->table);
 		$this->db->where('survey_id',$data);
 		return $this->db->get()->row()->survey_pos;
+	}
+
+	public function getLampiran($data){
+		$this->db->select('survey_attachment');
+		$this->db->from($this->table);
+		$this->db->where('survey_id',$data);
+		return $this->db->get()->row()->survey_attachment;
+	}
+
+	public function getLastEdit($data){
+		$this->db->select('survey_last_edit');
+		$this->db->from($this->table);
+		$this->db->where('survey_id',$data);
+		return $this->db->get()->row()->survey_last_edit;
 	}
 
 	public function getPosName($data){
@@ -151,8 +240,25 @@ class Survei_model extends CI_Model {
 
 	public function update_last_edit($id,$data){
 		$this->db->where('survey_id',$id);
-		$this->db->update('tbl_survey',array('survey_last_date'=>$data));
+		$this->db->update('tbl_survey',array('survey_last_edit'=>$data));
 		return $this->db->affected_rows();
+	}
+
+
+	public function count_all_reported($user_id){
+		$this->db->from($this->table);
+		$this->db->where('user_id',$user_id);
+		$this->db->where('survey_status',1);
+		
+		return $this->db->count_all_results();
+	}
+
+	public function count_all_non_reported($user_id){
+		$this->db->from($this->table);
+		$this->db->where('user_id',$user_id);
+		$this->db->where('survey_status',0);
+		
+		return $this->db->count_all_results();
 	}
 
 }

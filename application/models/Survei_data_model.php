@@ -120,4 +120,33 @@ class Survei_data_model extends CI_Model {
 		return $this->db->affected_rows();
 	}
 
+
+	public function count_all_reported($user_id){
+		$this->db->from('tbl_survey_data');
+		$this->db->join('tbl_survey','tbl_survey_data.survey_id = tbl_survey.survey_id');
+		$this->db->where('tbl_survey.user_id',$user_id);
+		$this->db->where('tbl_survey.survey_status',1);
+		
+		return $this->db->count_all_results();
+	}
+
+	public function count_all_non_reported($user_id){
+		$this->db->from('tbl_survey_data');
+		$this->db->join('tbl_survey','tbl_survey_data.survey_id = tbl_survey.survey_id');
+		$this->db->where('tbl_survey.user_id',$user_id);
+		$this->db->where('tbl_survey.survey_status',0);
+		
+		return $this->db->count_all_results();
+	}
+
+	public function count_all_reported_2(){
+		$this->db->from('tbl_survey_data');
+		$this->db->join('tbl_survey','tbl_survey_data.survey_id = tbl_survey.survey_id');
+		$this->db->where('tbl_survey.survey_status',1);
+		
+		return $this->db->count_all_results();
+	}
+
+	
+
 }

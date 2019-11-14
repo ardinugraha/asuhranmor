@@ -4,12 +4,12 @@ class Login extends CI_Controller {
 
 	public function __construct(){
 		parent::__construct();
-		$this->load->model('Login_model', 'users');
+		$this->load->model('User_model', 'users');
 	}
 
 	public function index(){
 		$data = array(
-			'title' => 'Login Page | .this.nilaiSiswa'
+			'title' => 'Login Page | ASuHRanMor'
 			);
 
 		$this->load->view('template/login_view', $data);
@@ -20,8 +20,8 @@ class Login extends CI_Controller {
 		$password = $this->input->post('password');
 
 		$where = array(
-			'user_name' => $username,
-			'user_pass' => md5($password)
+			'tbl_user.user_name' => $username,
+			'tbl_user.user_pass' => md5($password)
 			);
 
 		$cek = $this->users->login("tbl_user",$where);
@@ -29,10 +29,14 @@ class Login extends CI_Controller {
 		if ($cek->num_rows() > 0) {
 			$data = $cek->row_array();
 			$data_session = array(
-				'username' => $data['USER_NAME'],
+				'user_name' => $data['USER_NAME'],
+				'user_irl_name' => $data['USER_IRL_NAME'],
+				'user_nip' => $data['USER_NIP'],
 				'status' => 'login',
 				'user_id' => $data['USER_ID'],
+				'user_role_name' => $data['USER_ROLE_NAME'],
 				'user_role' => $data['USER_ROLE']
+				
 				);
 			$this->session->set_userdata($data_session);
 			redirect('dashboard');

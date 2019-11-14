@@ -29,6 +29,8 @@ class SurveiData extends CI_Controller {
 				'data_id' => $data_id,
 				'wilayah_survey' => $this->surveis->getPosName($data_id),
 				'tanggal_survey' => $this->surveis->getTanggal($data_id),
+				'last_edit_survey' => $this->surveis->getLastEdit($data_id),
+				'lampiran_survey' => $this->surveis->getLampiran($data_id),
 				'status_survey' => $this->surveis->getStatus($data_id)
 				], TRUE)
 			);

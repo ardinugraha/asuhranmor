@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Survei extends CI_Controller {
+class Report extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 
@@ -17,8 +17,8 @@ class Survei extends CI_Controller {
 
 	public function index(){
         $data = array(
-            'title' => 'Manajemen Laporan Survei',
-            'content' => $this->load->view('survei/survei_view', [
+            'title' => 'Hasil Laporan Survei',
+            'content' => $this->load->view('report/report_view', [
                 'poss' => $this->poss->getAllPos(),
                 'surveistats' => $this->surveistats->getAllstat()
 				], TRUE)
@@ -29,7 +29,7 @@ class Survei extends CI_Controller {
     
 	public function ajax_list(){
 		$user_id = $this->session->userdata('user_id');
-        $list = $this->surveis->get_datatables($user_id);
+        $list = $this->surveis->get_datatables_reported();
         
 		$data = array();
 		$no = $_POST['start'];
@@ -41,23 +41,16 @@ class Survei extends CI_Controller {
 			$row[] = $survei->survey_pos;//$this->poss->getPosName($survei->SURVEY_POS);
             $row[] = $survei->survey_attachment;
             $row[] = '<a class="btn btn-flat btn-sm btn-primary" href='."'surveidata/index/".$survei->survey_id."'".' title="Edit" ><i class="glyphicon glyphicon-pencil"></i>  Detail</a>';
-
-            $row[] = $survei->survey_status;//$this->surveistats->getStatName($survei->SURVEY_STATUS);
-			if($survei->survey_status != "Terlaporkan"){
-				$row[] = '<a class="btn btn-flat btn-sm btn-success" href="javascript:void(0)" title="Edit" onclick="report_survei('."'".$survei->survey_id."'".')">  Ajukan</a>
-				<a class="btn btn-flat btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_survei('."'".$survei->survey_id."'".')"><i class="glyphicon glyphicon-pencil"></i>  Edit</a>
-				<a class="btn btn-flat btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_survei('."'".$survei->survey_id."'".')"><i class="glyphicon glyphicon-trash"></i>  Delete</a>';
-			}else{
-				$row[] = '<a class="btn btn-warning" disabled > Laporan sudah dilaporkan</a>';
-			}
-			
+            $row[] = $survei->survey_tgl_reported;
+            $row[] = $survei->user_name.' / '.$survei->user_nip.' / '.$survei->user_role;
+            $row[] = '<a class="btn btn-flat btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_survei('."'".$survei->survey_id."'".')"><i class="glyphicon glyphicon-trash"></i>  Delete</a>';
             $data[] = $row;
 		}
 
 		$output = array(
 			"draw" => $_POST['draw'],
-			"recordsTotal" => $this->surveis->count_all($user_id),
-			"recordsFiltered" => $this->surveis->count_filtered($user_id),
+			"recordsTotal" => $this->surveis->count_all_reported_2(),
+			"recordsFiltered" => $this->surveis->count_filtered_reported_2(),
 			"data" => $data,
 			);
 
@@ -111,7 +104,6 @@ class Survei extends CI_Controller {
 	public function ajax_report($id){
 
 		$this->surveis->report($id);
-		$this->ajax_update_date_2($id);
 		echo json_encode(array("status" => TRUE));
 	}
 
@@ -126,16 +118,4 @@ class Survei extends CI_Controller {
 		echo json_encode(array("status" => TRUE));
 	}
 	
-
-	public function ajax_update_date_2($id){
-		$this->surveis->update_last_edit($id,date('Y-m-d H:i:s'));
-	}
-
-
-	
-    
-    
-
-	
-
 }

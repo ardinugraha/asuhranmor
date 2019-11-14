@@ -5,7 +5,7 @@
     <h1>Manajemen Laporan Survei</h1>
     <ol class="breadcrumb">
       <li><a href="<?= base_url() ?>dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Manajemen Laporan Survei</li>
+      <li class="active">Hasil Laporan Survei</li>
     </ol>
   </section>
 
@@ -17,7 +17,7 @@
           <!-- Content Title -->
           <div class="box-header">
             <button class="btn btn-flat btn-default" onclick="reload_table_Survei()"><i class="glyphicon glyphicon-refresh"></i> Muat Ulang</button>
-            <button type="button" onclick="add_survei()" class="btn btn-flat btn-primary pull-right"><i class="fa fa-plus"></i> Tambah Laporan Survei</button>
+            <!-- <button type="button" onclick="add_survei()" class="btn btn-flat btn-primary pull-right"><i class="fa fa-plus"></i> Tambah Laporan Survei</button> -->
           </div>
 
           <div class="box-body">
@@ -32,7 +32,8 @@
                       <th>Lokasi Survei</th>
                       <th>Nomor Surat Tugas</th>
                       <th>Detail Survei</th>
-                      <th>Status Survei</th>
+                      <th>Tanggal Melaporkan</th>
+                      <th>Pelaku Survei</th>
                       <th class="actions"></th>
                     </tr>
                   </thead>
@@ -141,7 +142,7 @@ $(document).ready(function() {
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-              "url": "<?= site_url('survei/ajax_list')?>",
+              "url": "<?= site_url('report/ajax_list')?>",
               "type": "POST"
             },
 

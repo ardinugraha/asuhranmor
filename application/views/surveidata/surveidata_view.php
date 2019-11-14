@@ -20,7 +20,8 @@
           <div class="box-header">
             <h4>Wilayah Survei : <?php echo $wilayah_survey ?></h4>
             <h4>Tanggal Survei : <?php echo $tanggal_survey ?></h4>
-            <h4>Lampiran Survei :</h4>
+            <h4>Nomor Surat Tugas : <?php echo $lampiran_survey ?></h4>
+            <h4>Terupdate Terakhir kali : <?php echo $last_edit_survey ?></h4>
           </div>
           <div class="box-header">
             <button class="btn btn-flat btn-default" onclick="reload_table_SurveiData()"><i class="glyphicon glyphicon-refresh"></i> Muat Ulang</button>
@@ -120,7 +121,6 @@
                     <label class="control-label">Harga Kendaraan (Rp)</label>
                     <input name="survey_data_harga" placeholder="Harga Kendaraan (dalam Rupiah)" class="form-control" type="text" id="harga_kendaraan" autofocus>
                     <span class="help-block"></span>
-                    <label class="control-label">Harga Kendaraan (Rp)</label>
                   </div>
 
                   <div class="form-group">
@@ -131,6 +131,7 @@
 
                   <div class="form-group" hidden="true">
                     <input type="hidden" name="survey_data_id">
+                    <input type="hidden" name="survey_id" value = <?= $data_id ?>>
                     <span class="help-block"></span>
                   </div>
 

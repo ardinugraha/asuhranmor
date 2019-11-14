@@ -6,6 +6,8 @@ $route['dashboard'] = 'home/index';
 
 $route['survei'] = 'survei/index';
 $route['surveidata'] = 'surveidata/index';
+$route['report'] = 'report/index';
+$route['profil'] = 'profile/index';
 // Route for User Logout
 $route['user/logout'] = 'login/logout';
 
