@@ -1,7 +1,7 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
-  <?php if($this->session->userdata('user_role')=='1'): ?>
+  <?php if($this->session->userdata('user_role')=='1' OR $this->session->userdata('user_role')=='2'): ?>
   <section class="content-header">
     <h1>Dashboard Laporan Survei</h1>
     <ol class="breadcrumb">
@@ -42,12 +42,18 @@
       <!-- /.col -->
     </div>
   </section>
+
+  <section class="content-header">
+    <h1>Rekap tiap Cabang</h1>
+  </section>
+
+
   <?php endif;?>
 
 
   <section class="content-header">
     <h1>Dashboard Kegiatan Survei</h1>
-    <?php if($this->session->userdata('user_role')!='1'): ?>
+    <?php if($this->session->userdata('user_role')!='1' AND $this->session->userdata('user_role')!='2'): ?>
     <ol class="breadcrumb">
       <li><a href="<?= base_url() ?>dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
       <li class="active">Dashboard</li>
@@ -77,7 +83,7 @@
 
           <div class="info-box-content">
             <span class="info-box-text">Jumlah Data Survei Belum di Laporkan</span>
-            <span class="info-box-number"><?= $surveidatanonreported ?> Data Survei</span>
+            <span class="info-box-number"><?= $surveidatanonreported ?> Data Survei Kendaraan Bermotor</span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -102,7 +108,7 @@
           <span class="info-box-icon bg-blue"><i class="ion ion ion-ios-paper"></i></span>
           <div class="info-box-content">
             <span class="info-box-text">Jumlah Data Survei telah di Laporkan</span>
-            <span class="info-box-number"><?= $surveidatareported ?> Laporan</span>
+            <span class="info-box-number"><?= $surveidatareported ?> Data Survei Kendaraan Bermotor</span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -111,6 +117,9 @@
       <!-- /.col -->
     </div>
   </section>
+
+
+  
 
   
 </div>

@@ -79,7 +79,7 @@
             </div>
             <div class="pull-left info">
               <p><?php echo $this->session->userdata('user_irl_name')?></p>
-              <p><?php echo $this->session->userdata('user_role_name')?></p>
+              <p><div class ="p2"><?php echo $this->session->userdata('user_role_name')?></div></p>
               
             </div>
             
@@ -91,7 +91,7 @@
             <li class="<?php if ($this->uri->segment(1) == 'dashboard'): echo "active"; endif;?>"><a href="<?= base_url()?>dashboard"><i class="fa fa-institution"></i> <span>Dashboard</span></a></li>
             <!-- Data User -->
             <li class="<?php if ($this->uri->segment(1) == 'survei'): echo "active"; endif;?>"><a href="<?= base_url()?>survei"><i class="fa fa-book"></i> <span>Manajemen Laporan Survei</span></a></li>
-            <?php if($this->session->userdata('user_role')=='1'):?>
+            <?php if($this->session->userdata('user_role')=='1' OR $this->session->userdata('user_role')=='2' ):?>
             <li class="<?php if ($this->uri->segment(1) == 'report'): echo "active"; endif;?>"><a href="<?= base_url()?>report"><i class="fa fa-file-text"></i> <span>Hasil Laporan Survei</span></a></li>
             <?php endif;?>
             <!-- Data Guru -->
@@ -166,3 +166,9 @@
 
 </body>
 </html>
+
+<style type="text/css">
+.p2 {
+    font-size: 80%;
+}
+</style>

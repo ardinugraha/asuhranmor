@@ -7,6 +7,7 @@ class User_model extends CI_model {
         $this->db->from($table);
         $this->db->join('tbl_kode','tbl_kode.kode_data = tbl_user.user_role');
         $this->db->where($where);
+        
         return $this->db->get();
     }
 

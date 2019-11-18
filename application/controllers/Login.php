@@ -21,7 +21,8 @@ class Login extends CI_Controller {
 
 		$where = array(
 			'tbl_user.user_name' => $username,
-			'tbl_user.user_pass' => md5($password)
+			'tbl_user.user_pass' => md5($password),
+			'tbl_kode.kode_title' => 'user_role'
 			);
 
 		$cek = $this->users->login("tbl_user",$where);
